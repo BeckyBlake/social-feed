@@ -13,6 +13,7 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-firebase-hooks": "^5.1.1",
     "react-icons": "^4.12.0"
   },
   "devDependencies": {
