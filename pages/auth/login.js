@@ -43,5 +43,3 @@ export default function Login() {
     </div>
   );
 }
-
-// 42:00
