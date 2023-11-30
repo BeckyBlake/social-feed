@@ -13,7 +13,7 @@ export default function Nav() {
         <ul className="flex items-center gap-10">
           {!user && (
             <Link href={"/auth/login"} legacyBehavior>
-              <a className="py-2 px-4 text-sm bg-cyan-500 text-white rounded-lg font-medium ml-8">
+              <a className="py-2 px-4 text-sm bg-cyan-500 text-white rounded-lg font-medium ml-8 mr-8">
                 Join Now
               </a>
             </Link>
@@ -27,7 +27,7 @@ export default function Nav() {
               </Link>
               <Link href={"/dashboard"}>
                 <img
-                  className="w-12 rounded-full cursor-pointer"
+                  className="w-12 rounded-full cursor-pointer hover:shadow-lg  mr-4"
                   src={user.photoURL}
                   alt="user image"
                 />
