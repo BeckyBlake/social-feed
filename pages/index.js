@@ -22,7 +22,10 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="my-12 text-lg font-medium">
+    <div
+      className="my-12 text-lg font-medium"
+      style={{ marginLeft: "1rem", marginRight: "1rem" }}
+    >
       <h2>See what other people are saying</h2>
       {/* <Message /> */}
       {allPosts.map((post) => (
@@ -31,4 +34,3 @@ export default function Home() {
     </div>
   );
 }
-// 1:37:59
