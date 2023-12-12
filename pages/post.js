@@ -2,7 +2,13 @@ import { auth, db } from "../utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { toast } from "react-toastify";
 
 export default function Post() {
@@ -12,6 +18,7 @@ export default function Post() {
   });
   const [user, loading] = useAuthState(auth);
   const route = useRouter();
+  const updateData = route.query;
 
   //   submit post function
   const submitPost = async (e) => {
@@ -30,24 +37,48 @@ export default function Post() {
       });
     }
 
-    // make a new post
-    const collectionRef = collection(db, "posts");
-    await addDoc(collectionRef, {
-      ...post,
-      timestamp: serverTimestamp(),
-      user: user.uid,
-      avatar: user.photoURL,
-      username: user.displayName,
-    });
-    // clear out description
-    setPost({ description: "" });
-    return route.push("/");
+    if (post?.hasOwnProperty("id")) {
+      const docRef = doc(db, "posts", post.id);
+      const updatedPost = { ...post, timestamp: serverTimestamp() };
+      await updateDoc(docRef, updatedPost);
+      return route.push("/");
+    } else {
+      // make a new post
+      const collectionRef = collection(db, "posts");
+      await addDoc(collectionRef, {
+        ...post,
+        timestamp: serverTimestamp(),
+        user: user.uid,
+        avatar: user.photoURL,
+        username: user.displayName,
+      });
+      // clear out description
+      setPost({ description: "" });
+      return route.push("/");
+    }
   };
+
+  // check our user
+  const checkUser = async () => {
+    if (loading) return;
+    if (!user) {
+      return route.push("/auth/login");
+    }
+    if (updateData.id) {
+      setPost({ description: updateData.description, id: updateData.id });
+    }
+  };
+
+  useEffect(() => {
+    checkUser();
+  }, [user, loading /* eslint-disable-line react-hooks/exhaustive-deps */]);
 
   return (
     <div className="my-20 p-12 shadow-lg rounded-lg max-w-md mx-auto">
       <form onSubmit={submitPost}>
-        <h1 className="text-2xl font-bold">Create a new post</h1>
+        <h1 className="text-2xl font-bold">
+          {post.hasOwnProperty("id") ? "Edit" : "Create"} Post
+        </h1>
         <div className="py-2">
           <h3 className="text-lg font-medium py-2">Description</h3>
           <textarea
