@@ -54,6 +54,10 @@ export default function Post() {
       });
       // clear out description
       setPost({ description: "" });
+      toast.success("Post created", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1500,
+      });
       return route.push("/");
     }
   };
@@ -104,3 +108,5 @@ export default function Post() {
     </div>
   );
 }
+
+// 2:08:40
