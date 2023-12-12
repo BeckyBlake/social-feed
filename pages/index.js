@@ -29,7 +29,7 @@ export default function Home() {
       <h2>See what other people are saying</h2>
       {/* <Message /> */}
       {allPosts.map((post) => (
-        <Message {...post} key={post}></Message>
+        <Message {...post} key={post.id}></Message>
       ))}
     </div>
   );

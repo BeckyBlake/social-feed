@@ -2,7 +2,8 @@ import { auth, db } from "../utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { collection, query, where } from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
+import Message from "@/components/message";
 
 export default function Dashboard() {
   const route = useRouter();
@@ -31,7 +32,14 @@ export default function Dashboard() {
   return (
     <div style={{ marginLeft: "1rem", marginRight: "1rem" }}>
       <h1>Your posts</h1>
-      <div>posts</div>
+
+      <div>
+        {posts.map((post) => (
+          <div key={post.id}>
+            <Message {...post} key={post.id}></Message>
+          </div>
+        ))}
+      </div>
       <button onClick={() => auth.signOut()}>Sign out</button>
     </div>
   );
