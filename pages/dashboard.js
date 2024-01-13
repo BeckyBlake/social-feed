@@ -19,7 +19,6 @@ export default function Dashboard() {
   const route = useRouter();
   const [user, loading] = useAuthState(auth);
   const [posts, setPosts] = useState([]);
-  // see if user is logged in
   const getData = async () => {
     if (loading) return;
     if (!user) {
